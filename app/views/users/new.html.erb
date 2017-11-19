@@ -1,0 +1,131 @@
+<!-- f is the form builder object. -->
+<%= form_for(@user) do |user_builder| %>
+
+  <p>
+    <%= user_builder.label :email %>
+    <%= user_builder.text_field :email %>
+  </p>
+
+  <%= user_builder.fields_for :addresses do |address_builder| %>
+    <fieldset>
+      <legend><%= address_builder.object.address_type %> Address</legend>
+      <p>
+        <%= address_builder.label :street_1 %>
+        <%= address_builder.text_field :street_1 %>
+
+        <!-- The equivalent in HTML code:
+        <label>Street 1</label>
+        <input type="text" name="user[addresses_attributes][][street_1]"> -->
+      </p>
+      <p>
+        <%= address_builder.label :street_2 %>
+        <%= address_builder.text_field :street_2 %>
+
+        <!-- The equivalent in HTML code:
+        <label>Street 2</label>
+        <input type="text" name="user[addresses_attributes][][street_2]">
+        The [] in "user[addresses_attributes][][street_2]" is to make the addresses_attributes have an data structure of [],
+           addresses_attributes = [
+             {street_1: "Address 1 Street", address_type: "Home"},
+             {street_1: "Address 2 Street", address_type: "Business"}
+           ]
+        -->
+      </p>
+
+      <%= address_builder.hidden_field  :address_type %>
+
+      <!-- The equivalent in HTML code:
+      <input type="hidden" name="user[addresses_attributes][][address_type]" value="Home"> -->
+
+    </fieldset>
+  <% end %>
+
+  <%= user_builder.fields_for :team do |team_builder| %>
+    <fieldset>
+      <legend>Team (Name required, Hometown only required for new Teams)</legend>
+      <p>
+        <%= team_builder.label :name %>
+        <%= team_builder.text_field :name %>
+      </p>
+      <p>
+        <%= team_builder.label :hometown %>
+        <%= team_builder.text_field :hometown %>
+      </p>
+    </fieldset>
+  <% end %>
+
+  <!-- <fieldset>
+    <legend>Business Address</legend>
+    <p>
+      <label>Street 1</label>
+      <input tpye="text" name="user[addresses_attributes][][street_1]">
+    </p>
+    <p>
+      <label>Street 2</label>
+      <input type="text" name="user[addresses_attributes][][street_2]">
+    </p>
+
+    <input type="hidden" name="user[addresses_attributes][][address_type]" value="Business">
+
+  </fieldset> -->
+
+  <%= user_builder.submit %>
+<% end %>
+
+<!-- How do I make sure this is a Home address? -->
+<!-- How do I make sure this is a Business address? -->
+<!-- <form>
+
+  <p>
+    <label>Email</label>
+    <input type="text" name="">
+  </p>
+
+  <fieldset>
+    <legend>Home Address</legend>
+    <p>
+      <label>Street</label>
+      <input type="text" name="">
+    </p>
+    <p>
+      <label>Street</label>
+      <input type="text" name="">
+    </p>
+
+  </fieldset>
+
+  <fieldset>
+    <legend>Business Address</legend>
+    <p>
+      <label>Street</label>
+      <input type="text" name="">
+    </p>
+    <p>
+      <label>Street</label>
+      <input type="text" name="">
+    </p>
+  </fieldset>
+
+  <fieldset>
+    <legend>Existing Team by Name</legend>
+    <p>
+      <label>Enter Your Team Name</label>
+      <input type="text" name="">
+    </p>
+
+  </fieldset>
+
+  <fieldset>
+    <legend>Create a New Team</legend>
+    <p>
+      <label>Name</label>
+      <input type="text" name="">
+    </p>
+    <p>
+      <label>Hometown</label>
+      <input type="text" name="">
+    </p>
+  </fieldset>
+
+  <input type="submit" />
+</form> -->
